@@ -1,8 +1,13 @@
 // import PropTypes from 'prop-types';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 
 export const ImageGallery = () => {
-  return <List></List>;
+  return (
+    <List>
+      <ImageGalleryItem />
+    </List>
+  );
 };
 
 // Section.propTypes = {
