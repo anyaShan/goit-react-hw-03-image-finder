@@ -1,6 +1,9 @@
 import { Component } from 'react';
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
 // import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { Loader } from 'components/Loader/Loader';
 import { List } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
@@ -43,8 +46,8 @@ export class ImageGallery extends Component {
 
     return (
       <>
-        {loading && <div>Loading...</div>}
-        {!searchName && <div>Please enter somehing!</div>}
+        {loading && <Loader />}
+        {!searchName && <div>Please enter something!</div>}
 
         {gallery && (
           <List>

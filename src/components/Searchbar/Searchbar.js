@@ -19,7 +19,7 @@ export const Searchbar = ({ onSubmit }) => {
   const handleFormSubmit = (values, { resetForm }) => {
     // console.log(values);
     if (values.searchName.trim() === '') {
-      return toast.error('Please enter somehing!');
+      return toast.error('Please enter something!');
       // return alert('Please, add word');
     }
     onSubmit(values);
