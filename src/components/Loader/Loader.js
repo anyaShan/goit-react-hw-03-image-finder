@@ -8,7 +8,7 @@ export const Loader = () => {
       <RotatingLines
         strokeColor="#3f51b5"
         strokeWidth="5"
-        animationDuration="0.3"
+        animationDuration="0.6"
         width="100"
         visible={true}
       />
