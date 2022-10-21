@@ -1,4 +1,5 @@
 // import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import { Formik, ErrorMessage } from 'formik';
 // import * as yup from 'yup';
 import {
@@ -16,9 +17,10 @@ import {
 
 export const Searchbar = ({ onSubmit }) => {
   const handleFormSubmit = (values, { resetForm }) => {
-    console.log(values);
+    // console.log(values);
     if (values.searchName.trim() === '') {
-      return alert('Please, add word');
+      return toast.error('Please enter somehing!');
+      // return alert('Please, add word');
     }
     onSubmit(values);
     resetForm();
@@ -41,8 +43,8 @@ export const Searchbar = ({ onSubmit }) => {
           <SearchFormInput
             type="text"
             name="searchName"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
           />
           <ErrorMessage component="span" name="searchName" />

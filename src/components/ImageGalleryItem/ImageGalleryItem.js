@@ -1,10 +1,10 @@
 // import PropTypes from 'prop-types';
 import { Item } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = () => {
+export const ImageGalleryItem = ({ other, webformatLink, largeImageLink }) => {
   return (
     <Item>
-      <img src="" alt="" />
+      <img src={webformatLink} alt={other} />
     </Item>
   );
 };
