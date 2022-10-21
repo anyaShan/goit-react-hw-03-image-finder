@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Form, Field } from 'formik';
 import search from '../../images/search.svg';
 
 export const SearchbarHeader = styled.header`
@@ -20,7 +21,7 @@ export const SearchbarHeader = styled.header`
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
 
-export const SearchForm = styled.form`
+export const SearchForm = styled(Form)`
   display: flex;
   align-items: center;
   width: 100%;
@@ -61,7 +62,7 @@ export const SearchFormLabel = styled.span`
   border: 0;
 `;
 
-export const SearchFormInput = styled.input`
+export const SearchFormInput = styled(Field)`
   display: inline-block;
   width: 100%;
   margin-left: 5px;

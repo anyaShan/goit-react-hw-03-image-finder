@@ -5,22 +5,28 @@ import { Searchbar } from 'components/Searchbar/Searchbar';
 
 export class App extends Component {
   state = {
-    image: [],
+    searchName: '',
   };
 
   componentDidMount() {
-    fetch(
-      'https://pixabay.com/api/?q=cat&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12'
-    )
-      .then(res => res.json())
-      .then(image => this.setState({ image }));
+    // fetch(
+    //   'https://pixabay.com/api/?q=cat&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12'
+    // )
+    //   .then(res => res.json())
+    //   .then(image => this.setState({ image }));
   }
+
+  // Функція, що кидається у форму як prop для запису пошукового значення в state
+
+  handleFormSubmit = searchName => {
+    this.setState({ searchName });
+  };
 
   render() {
     return (
       <Container>
-        <Searchbar />
-        {this.state.image && <div>результат запиту</div>}
+        <Searchbar onSubmit={this.handleFormSubmit} />
+
         {/* <ImageGallery /> */}
       </Container>
     );
