@@ -8,16 +8,22 @@ export class ImageGallery extends Component {
     gallery: [],
     totalImages: null,
     page: 1,
+    loading: false,
   };
   componentDidUpdate(prevProps, prevState) {
+    const prevQuery = prevProps.searchName;
+    const nextQuery = this.props.searchName;
+
     // const { gallery, totalImages, page } = this.state;
-    if (prevProps.searchName !== this.props.searchName) {
+    if (prevQuery !== nextQuery) {
       // console.log('add state');
       // console.log(prevProps.searchName);
       // console.log(this.props.searchName);
 
+      this.setState({ loading: true });
+
       fetch(
-        `https://pixabay.com/api/?q=${this.props.searchName}&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12`
+        `https://pixabay.com/api/?q=${nextQuery}&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12`
       )
         .then(res => res.json())
         .then(({ hits, totalHits }) =>
@@ -25,24 +31,34 @@ export class ImageGallery extends Component {
             gallery: hits,
             totalImages: totalHits,
           })
-        );
+        )
+        .finally(() => this.setState({ loading: false }));
     }
   }
+
   render() {
-    const { gallery } = this.state;
-    console.log(gallery);
+    const { gallery, loading } = this.state;
+    const { searchName } = this.props;
+    // console.log(gallery);
 
     return (
-      <List>
-        {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
-          <ImageGalleryItem
-            key={id}
-            webformatLink={webformatURL}
-            largeImageLink={largeImageURL}
-            other={tags}
-          />
-        ))}
-      </List>
+      <>
+        {loading && <div>Loading...</div>}
+        {!searchName && <div>Please enter somehing!</div>}
+
+        {gallery && (
+          <List>
+            {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
+              <ImageGalleryItem
+                key={id}
+                webformatLink={webformatURL}
+                largeImageLink={largeImageURL}
+                other={tags}
+              />
+            ))}
+          </List>
+        )}
+      </>
     );
   }
 }
