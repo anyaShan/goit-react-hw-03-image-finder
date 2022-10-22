@@ -6,6 +6,7 @@ import { apiQuery } from '../Services/Api';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { StartPhrase, ErrorPhrase } from 'components/Phrases/Phrases';
+import { ButtonLoadMore } from 'components/Button/ButtonLoadMore';
 import { List } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
@@ -41,6 +42,8 @@ export class ImageGallery extends Component {
     }
   }
 
+  loadMore;
+
   render() {
     const { gallery, error, status } = this.state;
 
@@ -60,16 +63,19 @@ export class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (
-        <List>
-          {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
-            <ImageGalleryItem
-              key={id}
-              webformatLink={webformatURL}
-              largeImageLink={largeImageURL}
-              other={tags}
-            />
-          ))}
-        </List>
+        <>
+          <List>
+            {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
+              <ImageGalleryItem
+                key={id}
+                webformatLink={webformatURL}
+                largeImageLink={largeImageURL}
+                other={tags}
+              />
+            ))}
+          </List>
+          <ButtonLoadMore />
+        </>
       );
     }
   }

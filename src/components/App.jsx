@@ -11,14 +11,6 @@ export class App extends Component {
     searchName: '',
   };
 
-  // componentDidMount() {
-  //   fetch(
-  //     'https://pixabay.com/api/?q=cat&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12'
-  //   )
-  //     .then(res => res.json())
-  //     .then(image => this.setState({ image }));
-  // }
-
   // Функція, що кидається у форму як prop для запису пошукового значення в state
 
   handleFormSubmit = searchValue => {
