@@ -12,8 +12,8 @@ export class ImageGallery extends Component {
     gallery: [],
     totalImages: null,
     page: 1,
-    loading: false,
     error: null,
+    status: 'idle',
   };
   componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevProps.searchName;
@@ -25,7 +25,7 @@ export class ImageGallery extends Component {
       // console.log(prevProps.searchName);
       // console.log(this.props.searchName);
 
-      this.setState({ loading: true, gallery: [] });
+      this.setState({ status: 'pending' });
 
       fetch(
         `https://pixabay.com/api/?q=${nextQuery}&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12`
@@ -41,38 +41,44 @@ export class ImageGallery extends Component {
           this.setState({
             gallery: hits,
             totalImages: totalHits,
+            status: 'resolved',
           })
         )
-        .catch(error => this.setState({ error }))
-        .finally(() => this.setState({ loading: false }));
+        .catch(error => this.setState({ error, status: 'rejected' }));
     }
   }
 
   render() {
-    const { gallery, loading, error } = this.state;
-    const { searchName } = this.props;
+    const { gallery, error, status } = this.state;
+
     // console.log(gallery);
 
-    return (
-      <>
-        {loading && <Loader />}
-        {!searchName && <StartPhrase />}
-        {error && <ErrorPhrase error={error.massage} />}
+    if (status === 'idle') {
+      return <StartPhrase />;
+    }
 
-        {gallery && (
-          <List>
-            {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
-              <ImageGalleryItem
-                key={id}
-                webformatLink={webformatURL}
-                largeImageLink={largeImageURL}
-                other={tags}
-              />
-            ))}
-          </List>
-        )}
-      </>
-    );
+    if (status === 'pending') {
+      return <Loader />;
+    }
+
+    if (status === 'rejected') {
+      return <ErrorPhrase error={error.massage} />;
+    }
+
+    if (status === 'resolved') {
+      return (
+        <List>
+          {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
+            <ImageGalleryItem
+              key={id}
+              webformatLink={webformatURL}
+              largeImageLink={largeImageURL}
+              other={tags}
+            />
+          ))}
+        </List>
+      );
+    }
   }
 }
 
@@ -80,3 +86,26 @@ export class ImageGallery extends Component {
 //   title: PropTypes.string.isRequired,
 //   children: PropTypes.node.isRequired,
 // };
+
+// ========================= Render () до створення "машини станів" ====================================
+
+// return (
+//   <>
+//     {loading && <Loader />}
+//     {!searchName && <StartPhrase />}
+//     {error && <ErrorPhrase error={error.massage} />}
+
+//     {gallery && (
+//       <List>
+//         {gallery.map(({ id, largeImageURL, webformatURL, tags }) => (
+//           <ImageGalleryItem
+//             key={id}
+//             webformatLink={webformatURL}
+//             largeImageLink={largeImageURL}
+//             other={tags}
+//           />
+//         ))}
+//       </List>
+//     )}
+//   </>
+// );
