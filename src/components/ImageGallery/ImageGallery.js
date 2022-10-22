@@ -4,6 +4,7 @@ import { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
+import { StartPhrase, ErrorPhrase } from 'components/Phrases/Phrases';
 import { List } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
@@ -47,7 +48,7 @@ export class ImageGallery extends Component {
     return (
       <>
         {loading && <Loader />}
-        {!searchName && <div>Please enter something!</div>}
+        {!searchName && <StartPhrase />}
 
         {gallery && (
           <List>
