@@ -34,7 +34,7 @@ export class ImageGallery extends Component {
           this.setState({
             gallery: hits,
             totalImages: totalHits,
-            page: 2,
+            // page: 1,
             status: 'resolved',
           })
         )
@@ -42,10 +42,23 @@ export class ImageGallery extends Component {
     }
   }
 
-  loadMore;
+  loadMore = () => {
+    const nextQuery = this.props.searchName;
+    const { page } = this.state;
+
+    apiQuery(nextQuery, page)
+      .then(({ hits }) =>
+        this.setState(prevState => ({
+          gallery: [...prevState.gallery, ...hits],
+          page: prevState.page + 1,
+          status: 'resolved',
+        }))
+      )
+      .catch(error => this.setState({ error, status: 'rejected' }));
+  };
 
   render() {
-    const { gallery, error, status } = this.state;
+    const { gallery, totalImages, error, page, status } = this.state;
 
     // console.log(gallery);
 
@@ -74,7 +87,8 @@ export class ImageGallery extends Component {
               />
             ))}
           </List>
-          <ButtonLoadMore />
+
+          {totalImages === page && <ButtonLoadMore loadMore={this.loadMore} />}
         </>
       );
     }
