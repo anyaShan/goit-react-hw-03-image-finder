@@ -8,10 +8,10 @@ export const StartPhrase = () => {
   );
 };
 
-export const ErrorPhrase = () => {
+export const ErrorPhrase = ({ error }) => {
   return (
     <PhraseWrap>
-      <p>Error</p>
+      <p>{error}</p>
     </PhraseWrap>
   );
 };
