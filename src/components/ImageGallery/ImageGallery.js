@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { apiQuery } from '../Services/Api';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 // import PropTypes from 'prop-types';
@@ -27,20 +28,12 @@ export class ImageGallery extends Component {
 
       this.setState({ status: 'pending' });
 
-      fetch(
-        `https://pixabay.com/api/?q=${nextQuery}&page=1&key=29626479-30d098b137805aefe019417a9&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(responce => {
-          if (responce.ok) {
-            return responce.json();
-          }
-
-          return Promise.reject(new Error('Enter a valid query'));
-        })
+      apiQuery(nextQuery)
         .then(({ hits, totalHits }) =>
           this.setState({
             gallery: hits,
             totalImages: totalHits,
+            page: 2,
             status: 'resolved',
           })
         )

@@ -1,11 +1,11 @@
 // import PropTypes from 'prop-types';
 import { Overlay, ModalImage } from './Modal.styled';
 
-export const Modal = () => {
+export const Modal = ({ other, largeImageLink, closeModal }) => {
   return (
-    <Overlay>
+    <Overlay onClick={closeModal}>
       <ModalImage>
-        <img src="" alt="" />
+        <img src={largeImageLink} alt={other} />
       </ModalImage>
     </Overlay>
   );
