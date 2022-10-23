@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { ButtonWrap } from './ButtonLoadMore.styled';
 
 export const ButtonLoadMore = ({ loadMore }) => {
@@ -8,4 +10,8 @@ export const ButtonLoadMore = ({ loadMore }) => {
       </button>
     </ButtonWrap>
   );
+};
+
+ButtonLoadMore.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };

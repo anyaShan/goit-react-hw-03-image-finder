@@ -3,7 +3,7 @@ import { apiQuery } from '../Services/Api';
 import { toast } from 'react-toastify';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { StartPhrase, ErrorPhrase } from 'components/Phrases/Phrases';
@@ -11,11 +11,17 @@ import { ButtonLoadMore } from 'components/Button/ButtonLoadMore';
 import { List } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
+  static propTypes = {
+    searchName: PropTypes.string.isRequired,
+  };
+
   state = {
     gallery: [],
     totalImages: null,
+
     page: 1,
     perPage: 12,
+
     error: null,
     status: 'idle',
   };
@@ -56,13 +62,7 @@ export class ImageGallery extends Component {
     apiQuery(this.props.searchName, this.state.page)
       .then(respons => {
         const { data } = respons;
-        const { hits, totalHits } = data;
-
-        if (hits.length <= totalHits) {
-          toast.info(
-            "We're sorry, but you'failureve reached the end of search results."
-          );
-        }
+        const { hits } = data;
 
         this.setState(prevState => ({
           gallery: [...prevState.gallery, ...hits],
@@ -112,11 +112,6 @@ export class ImageGallery extends Component {
     }
   }
 }
-
-// Section.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   children: PropTypes.node.isRequired,
-// };
 
 // ========================= Render () до створення "машини станів" ====================================
 

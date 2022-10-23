@@ -1,7 +1,7 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { Formik, ErrorMessage } from 'formik';
-// import * as yup from 'yup';
+import * as yup from 'yup';
 import {
   SearchbarHeader,
   SearchForm,
@@ -10,10 +10,9 @@ import {
   SearchFormInput,
 } from './Searchbar.styled';
 
-// let schema = yup.object().shape({
-//   name: yup.string().required(),
-//   number: yup.number().required(),
-// });
+let schema = yup.object().shape({
+  searchName: yup.string().required(),
+});
 
 export const Searchbar = ({ onSubmit }) => {
   const handleFormSubmit = (values, { resetForm }) => {
@@ -31,7 +30,7 @@ export const Searchbar = ({ onSubmit }) => {
       initialValues={{
         searchName: '',
       }}
-      // validationSchema={schema}
+      validationSchema={schema}
       onSubmit={handleFormSubmit}
     >
       <SearchbarHeader>
@@ -54,7 +53,6 @@ export const Searchbar = ({ onSubmit }) => {
   );
 };
 
-// Section.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   children: PropTypes.node.isRequired,
-// };
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

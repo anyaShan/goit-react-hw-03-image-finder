@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { PhraseWrap } from './Phrases.styled';
 
 export const StartPhrase = () => {
@@ -14,4 +15,8 @@ export const ErrorPhrase = ({ error }) => {
       <p>{error}</p>
     </PhraseWrap>
   );
+};
+
+ErrorPhrase.propTypes = {
+  error: PropTypes.string,
 };

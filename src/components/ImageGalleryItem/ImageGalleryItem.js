@@ -1,10 +1,16 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import { render } from '@testing-library/react';
 import { Modal } from 'components/Modal/Modal';
 import { Item } from './ImageGalleryItem.styled';
 
 export class ImageGalleryItem extends Component {
+  static propTypes = {
+    other: PropTypes.string,
+    webformatLink: PropTypes.string.isRequired,
+    largeImageLink: PropTypes.string.isRequired,
+  };
+
   state = {
     isModalOpen: false,
   };

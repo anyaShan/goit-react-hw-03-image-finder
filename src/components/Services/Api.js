@@ -9,5 +9,3 @@ export async function apiQuery(nextQuery, page = 1) {
 
   return respons;
 }
-
-// export default { fetchQuery };
