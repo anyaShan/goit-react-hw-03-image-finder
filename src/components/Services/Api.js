@@ -1,16 +1,13 @@
-const URL_API = `https://pixabay.com/api/`;
-const PIXABAY_KEY = `key=29626479-30d098b137805aefe019417a9`;
+import axios from 'axios';
 
-export function apiQuery(nextQuery, page = 1) {
-  return fetch(
-    `${URL_API}?q=${nextQuery}&page=${page}&${PIXABAY_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-  ).then(responce => {
-    if (responce.ok) {
-      return responce.json();
-    }
+axios.defaults.baseURL = `https://pixabay.com/api/`;
+const PIXABAY_KEY = `29626479-30d098b137805aefe019417a9`;
 
-    return Promise.reject(new Error('Enter a valid query'));
-  });
+export async function apiQuery(nextQuery, page = 1) {
+  const fetch = `?q=${nextQuery}&page=${page}&key=${PIXABAY_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
+  const respons = await axios.get(fetch);
+
+  return respons;
 }
 
 // export default { fetchQuery };

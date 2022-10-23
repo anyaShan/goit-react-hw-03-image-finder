@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { apiQuery } from '../Services/Api';
+import { toast } from 'react-toastify';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 // import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ export class ImageGallery extends Component {
     gallery: [],
     totalImages: null,
     page: 1,
+    perPage: 12,
     error: null,
     status: 'idle',
   };
@@ -21,7 +23,6 @@ export class ImageGallery extends Component {
     const prevQuery = prevProps.searchName;
     const nextQuery = this.props.searchName;
 
-    // const { gallery, totalImages, page } = this.state;
     if (prevQuery !== nextQuery) {
       // console.log('add state');
       // console.log(prevProps.searchName);
@@ -30,35 +31,50 @@ export class ImageGallery extends Component {
       this.setState({ status: 'pending' });
 
       apiQuery(nextQuery)
-        .then(({ hits, totalHits }) =>
+        .then(respons => {
+          // console.log(respons);
+          const { data } = respons;
+          const { hits, totalHits } = data;
+
+          if (hits.length === 0) {
+            this.setState({ status: 'idle' });
+            return toast.error('You enter invalid search request');
+          }
+
           this.setState({
-            gallery: hits,
+            gallery: [...hits],
             totalImages: totalHits,
-            // page: 1,
+            page: 2,
             status: 'resolved',
-          })
-        )
+          });
+        })
         .catch(error => this.setState({ error, status: 'rejected' }));
     }
   }
 
   loadMore = () => {
-    const nextQuery = this.props.searchName;
-    const { page } = this.state;
+    apiQuery(this.props.searchName, this.state.page)
+      .then(respons => {
+        const { data } = respons;
+        const { hits, totalHits } = data;
 
-    apiQuery(nextQuery, page)
-      .then(({ hits }) =>
+        if (hits.length <= totalHits) {
+          toast.info(
+            "We're sorry, but you'failureve reached the end of search results."
+          );
+        }
+
         this.setState(prevState => ({
           gallery: [...prevState.gallery, ...hits],
           page: prevState.page + 1,
           status: 'resolved',
-        }))
-      )
+        }));
+      })
       .catch(error => this.setState({ error, status: 'rejected' }));
   };
 
   render() {
-    const { gallery, totalImages, error, page, status } = this.state;
+    const { gallery, totalImages, error, page, perPage, status } = this.state;
 
     // console.log(gallery);
 
@@ -88,7 +104,9 @@ export class ImageGallery extends Component {
             ))}
           </List>
 
-          {totalImages === page && <ButtonLoadMore loadMore={this.loadMore} />}
+          {totalImages >= perPage * page && (
+            <ButtonLoadMore loadMore={this.loadMore} />
+          )}
         </>
       );
     }
