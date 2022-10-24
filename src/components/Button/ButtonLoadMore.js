@@ -13,5 +13,5 @@ export const ButtonLoadMore = ({ loadMore }) => {
 };
 
 ButtonLoadMore.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
 };
